@@ -57,6 +57,10 @@ public class EnversInspection {
         EntityPersister persister = metamodel.entityPersister(auditEntityName);
         OuterJoinLoadable ojl = (OuterJoinLoadable) persister;
 
+        String tableName = ojl.getTableName();
+
+        System.out.println("Table: " + tableName);
+
         EntityType<Object> entityType = metamodel.entity(auditEntityName);
 
         for (Attribute<? super Object, ?> attribute : entityType
