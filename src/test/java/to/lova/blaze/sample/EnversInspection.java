@@ -1,32 +1,28 @@
 package to.lova.blaze.sample;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.envers.boot.internal.EnversService;
 import org.hibernate.metamodel.spi.MetamodelImplementor;
-import org.hibernate.persister.entity.EntityPersister;
-import org.hibernate.persister.entity.OuterJoinLoadable;
 import org.junit.Test;
+
+import com.blazebit.persistence.Criteria;
+import com.blazebit.persistence.CriteriaBuilderFactory;
 
 import to.lova.blaze.model.Cat;
 
 public class EnversInspection {
 
-    private EntityManagerFactory emf;
-
     @Test
     public void inspectEnversMetamodel() {
-        this.emf = Persistence.createEntityManagerFactory("default");
-        EntityManager em = this.emf.createEntityManager();
+        EntityManagerFactory emf = Persistence
+                .createEntityManagerFactory("default");
+        EntityManager em = emf.createEntityManager();
         SessionFactoryImplementor session = em.unwrap(SessionImplementor.class)
                 .getSessionFactory();
         EnversService envers = session.getServiceRegistry()
@@ -39,24 +35,12 @@ public class EnversInspection {
         String auditEntityName = envers.getAuditEntitiesConfiguration()
                 .getAuditEntityName(entityName);
 
-        EntityPersister persister = metamodel.entityPersister(auditEntityName);
-        OuterJoinLoadable ojl = (OuterJoinLoadable) persister;
-
-        String tableName = ojl.getTableName();
-
-        System.out.println("Table: " + tableName);
-
         EntityType<Object> entityType = metamodel.entity(auditEntityName);
 
-        for (Attribute<? super Object, ?> attribute : entityType
-                .getAttributes()) {
-            String attributeName = attribute.getName();
-            System.out.println("Attribute: " + attributeName);
-            String columns = Stream
-                    .of(ojl.getPropertyColumnNames(attributeName))
-                    .collect(Collectors.joining(","));
-            System.out.println("Columns: " + columns);
-        }
+        CriteriaBuilderFactory cbf = Criteria.getDefault()
+                .createCriteriaBuilderFactory(emf);
+        cbf.create(em, Long.class).from(entityType, "aud").select("aud.name")
+                .getResultList();
 
     }
 

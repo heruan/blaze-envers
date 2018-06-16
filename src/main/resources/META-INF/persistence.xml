@@ -19,14 +19,16 @@
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <class>to.lova.blaze.model.Cat</class>
         <class>to.lova.blaze.model.Person</class>
-        
+
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
             <property name="javax.persistence.jdbc.user" value="admin"/>
             <property name="javax.persistence.jdbc.password" value="admin"/>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-            
+
+            <property name="hibernate.show_sql" value="true"/>
+
             <property name="org.hibernate.envers.store_data_at_delete" value="true"/>
             <property name="org.hibernate.envers.global_with_modified_flag" value="true"/>
             <property name="org.hibernate.envers.audit_strategy" value="org.hibernate.envers.strategy.ValidityAuditStrategy"/>
