@@ -39,7 +39,7 @@ public class EnversTest {
 
         CriteriaBuilderFactory cbf = Criteria.getDefault()
                 .createCriteriaBuilderFactory(emf);
-        cbf.create(em, Long.class).from(entityType, "aud").select("aud.name")
+        cbf.create(em, String.class).from(entityType, "aud").select("aud.name")
                 .getResultList();
 
     }
