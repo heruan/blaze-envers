@@ -16,10 +16,10 @@ import com.blazebit.persistence.CriteriaBuilderFactory;
 
 import to.lova.blaze.model.Cat;
 
-public class EnversInspection {
+public class EnversTest {
 
     @Test
-    public void inspectEnversMetamodel() {
+    public void selectFromEnversEntityType() {
         EntityManagerFactory emf = Persistence
                 .createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
