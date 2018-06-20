@@ -62,7 +62,7 @@ public class EnversTest {
     }
 
     @Test
-    public void joinOnEnverEntityType() {
+    public void joinOnEnversEntityType() {
         Instant now = Instant.now();
         long f = now.minus(30, ChronoUnit.DAYS).toEpochMilli();
         long t = now.toEpochMilli();
@@ -87,8 +87,8 @@ public class EnversTest {
                 .select("count(r.revision)")
                 .joinOn(auditedEntityType, "aud", JoinType.LEFT)
                 .on("aud.originalId.REV.id").leExpression("r.revision")
-                .on("aud.revtype").notEq(RevisionType.DEL).onOr()
-                .on("aud.revend").gtExpression("r.revision").on("aud.revend")
+                .on("aud.REVTYPE").notEq(RevisionType.DEL).onOr()
+                .on("aud.REVEND").gtExpression("r.revision").on("aud.REVEND")
                 .isNull().endOr();
         joinOnBuilder.end().groupBy("r.timestamp").orderByAsc("r.timestamp")
                 .getResultList().stream().collect(Collectors.toMap(tuple -> {
