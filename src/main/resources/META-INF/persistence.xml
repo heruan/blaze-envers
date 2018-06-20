@@ -19,6 +19,9 @@
     <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <class>to.lova.blaze.model.Cat</class>
         <class>to.lova.blaze.model.Person</class>
+        <class>to.lova.blaze.model.Dual</class>
+        <class>to.lova.blaze.model.RevisionCTE</class>
+        <class>to.lova.blaze.model.TimestampCTE</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
